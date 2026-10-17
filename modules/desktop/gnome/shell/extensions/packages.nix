@@ -13,6 +13,7 @@ let
     appindicator
     caffeine
     advanced-media-controller
+    top-bar-organizer
     (wallpaper-slideshow.overrideAttrs (old: {
       patches = (old.patches or [ ]) ++ [ ./resources/double-click.patch ];
     }))

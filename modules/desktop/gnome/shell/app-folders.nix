@@ -81,6 +81,8 @@ in
         "dev.zed.Zed.desktop"
         "org.gnome.Nautilus.desktop"
         "spotify.desktop"
+        "steam.desktop"
+        "io.github.Predidit.Kazumi.desktop"
       ];
       app-picker-layout = [
         (lib.imap0 appPickerEntry appPickerItems)
