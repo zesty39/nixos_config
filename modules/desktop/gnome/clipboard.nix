@@ -1,0 +1,5 @@
+{ ... }:
+
+{
+  programs.gpaste.enable = true;
+}

@@ -1,0 +1,78 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "project_panel": {
+    "auto_open": {
+      "on_create": false,
+    },
+  },
+  "collaboration_panel": {
+    "button": false,
+    "dock": "bottom",
+  },
+  "git_panel": {
+    "dock": "bottom",
+  },
+  "agent": {
+    "dock": "right",
+    "sidebar_side": "right",
+    "favorite_models": [],
+    "model_parameters": [],
+  },
+  "edit_predictions": {
+    "allow_data_collection": "no",
+    "mode": "subtle",
+  },
+  "tabs": {
+    "file_icons": true,
+    "git_status": true,
+  },
+  "search": {
+    "center_on_match": true,
+    "include_ignored": true,
+    "regex": true,
+  },
+  "use_smartcase_search": true,
+  "format_on_save": "off",
+  "preferred_line_length": 120,
+  "soft_wrap": "bounded",
+  "vim": {
+    "use_smartcase_find": true,
+  },
+  "minimap": {
+    "show": "always",
+  },
+  "show_signature_help_after_edits": false,
+  "auto_signature_help": false,
+  "hover_popover_enabled": true,
+  "autoscroll_on_clicks": true,
+  "sticky_scroll": {
+    "enabled": true,
+  },
+  "diff_view_style": "unified",
+  "which_key": {
+    "enabled": true,
+    "delay_ms": 300,
+  },
+  "buffer_font_family": "Hack Nerd Font Mono",
+  "restore_on_startup": "launchpad",
+  "agent_servers": {
+    "codex-acp": {
+      "type": "registry",
+    },
+  },
+  "vim_mode": true,
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
+  "ui_font_size": 18.0,
+  "buffer_font_size": 20.0,
+
+}

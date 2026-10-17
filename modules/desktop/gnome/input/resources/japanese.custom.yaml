@@ -1,0 +1,5 @@
+
+patch:
+  key_binder/bindings/+:
+    - { when: composing, accept: Tab, send: Down }
+    - { when: composing, accept: Shift+ISO_Left_Tab, send: Up }

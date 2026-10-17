@@ -1,0 +1,16 @@
+diff --git a/rime_main.c b/rime_main.c
+index d728b35..2af3412 100644
+--- a/rime_main.c
++++ b/rime_main.c
+@@ -77 +77,10 @@ void ibus_rime_start(gboolean full_check) {
+-  if (rime_api->start_maintenance((Bool)full_check)) {
++  // Deploy automatically only on first use. Later deployments are started
++  // explicitly through the IBus property menu with full_check set to TRUE.
++  gboolean should_maintain = full_check;
++  if (!should_maintain) {
++    gchar* installation_yaml = g_build_filename(user_data_dir, "installation.yaml", NULL);
++    should_maintain = !g_file_test(installation_yaml, G_FILE_TEST_EXISTS);
++    g_free(installation_yaml);
++  }
++
++  if (should_maintain && rime_api->start_maintenance((Bool)full_check)) {

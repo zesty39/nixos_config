@@ -1,0 +1,141 @@
+--- a/libfprint/meson.build
++++ b/libfprint/meson.build
+@@ -134,6 +134,20 @@
+         'drivers/goodixmoc/goodix.c',
+         'drivers/goodixmoc/goodix_proto.c',
+     ),
++    'goodix53x5' : files(
++        'drivers/goodix53x5/goodix53x5-auth.c',
++        'drivers/goodix53x5/goodix53x5-calibration.c',
++        'drivers/goodix53x5/goodix53x5-commands.c',
++        'drivers/goodix53x5/goodix53x5-crypto.c',
++        'drivers/goodix53x5/goodix53x5-enroll.c',
++        'drivers/goodix53x5/goodix53x5-image.c',
++        'drivers/goodix53x5/goodix53x5-match.c',
++        'drivers/goodix53x5/goodix53x5-proto.c',
++        'drivers/goodix53x5/goodix53x5-scan.c',
++        'drivers/goodix53x5/goodix53x5-session.c',
++        'drivers/goodix53x5/goodix53x5-transport.c',
++        'drivers/goodix53x5/goodix53x5.c',
++    ),
+     'fpcmoc' : files('drivers/fpcmoc/fpc.c'),
+     'realtek' : files('drivers/realtek/realtek.c'),
+     'focaltech_moc' : files('drivers/focaltech_moc/focaltech_moc.c'),
+@@ -241,6 +255,32 @@
+     ]),
+     install: false)
+ 
++# SIGFM: SIFT-based fingerprint matching for small sensors
++# Use pkg-config only for the include path; link only the OpenCV modules we
++# need (the full opencv pkg-config pulls modules like viz/hdf that have
++# missing transitive deps).
++opencv_pc = dependency('opencv5', required: false)
++if not opencv_pc.found()
++    opencv_pc = dependency('opencv4')
++endif
++opencv_includes = opencv_pc.partial_dependency(compile_args: true, includes: true)
++opencv_core = cc.find_library('opencv_core')
++# OpenCV 5 renamed the features2d module to features
++opencv_features2d = cc.find_library('opencv_features2d', required: false)
++if not opencv_features2d.found()
++    opencv_features2d = cc.find_library('opencv_features')
++endif
++opencv_flann = cc.find_library('opencv_flann')
++opencv_imgproc = cc.find_library('opencv_imgproc')
++opencv_dep = declare_dependency(
++    dependencies: [opencv_includes, opencv_core, opencv_features2d, opencv_flann, opencv_imgproc],
++)
++libsigfm = static_library('sigfm',
++    'sigfm/sigfm.cpp',
++    dependencies: [opencv_dep],
++    cpp_args: ['-std=c++17'],
++    install: false)
++
+ libfprint_private = static_library('fprint-private',
+     sources: [
+         fpi_enums,
+@@ -254,7 +294,7 @@
+     sources: drivers_sources,
+     c_args: drivers_cflags,
+     dependencies: deps,
+-    link_with: libfprint_private,
++    link_with: [libfprint_private, libsigfm],
+     install: false)
+ 
+ mapfile = files('libfprint.ver')[0]
+@@ -274,8 +314,8 @@
+     version: libversion,
+     link_args : vflag,
+     link_depends : mapfile,
+-    link_with: [libfprint_drivers, libfprint_private],
+-    dependencies: deps,
++    link_with: [libfprint_drivers, libfprint_private, libsigfm],
++    dependencies: deps + [opencv_dep],
+     install: true)
+ 
+ libfprint_dep = declare_dependency(link_with: libfprint,
+@@ -294,7 +334,7 @@
+ 
+ libfprint_private_dep = declare_dependency(
+     include_directories: include_directories('.'),
+-    link_with: libfprint_private,
++    link_with: [libfprint_private, libsigfm],
+     dependencies: [
+         deps,
+         libfprint_dep,
+--- a/meson.build
++++ b/meson.build
+@@ -141,6 +141,7 @@
+     'upeksonly': {},
+     'upekts': {},
+     'goodixmoc': {},
++    'goodix53x5': { 'helper': ['openssl'] },
+     'nb1010': {},
+     'fpcmoc': {},
+     'realtek': {},
+--- a/data/autosuspend.hwdb
++++ b/data/autosuspend.hwdb
+@@ -212,6 +212,13 @@
+ usb:v10A5p9544*
+ usb:v10A5pC844*
+ usb:v10A5p9B24*
++ ID_AUTOSUSPEND=1
++ ID_PERSIST=0
++
++# Supported by libfprint driver goodix53x5
++usb:v27C6p5335*
++usb:v27C6p5385*
++usb:v27C6p5395*
+  ID_AUTOSUSPEND=1
+  ID_PERSIST=0
+ 
+@@ -517,13 +524,10 @@
+ usb:v27C6p5301*
+ usb:v27C6p530C*
+ usb:v27C6p532D*
+-usb:v27C6p5335*
+ usb:v27C6p533C*
+ usb:v27C6p5381*
+-usb:v27C6p5385*
+ usb:v27C6p538C*
+ usb:v27C6p538D*
+-usb:v27C6p5395*
+ usb:v27C6p5503*
+ usb:v27C6p550A*
+ usb:v27C6p550C*
+--- a/libfprint/fprint-list-udev-hwdb.c
++++ b/libfprint/fprint-list-udev-hwdb.c
+@@ -166,13 +166,10 @@
+   { .vid = 0x27c6, .pid = 0x5301 },
+   { .vid = 0x27c6, .pid = 0x530c },
+   { .vid = 0x27c6, .pid = 0x532d },
+-  { .vid = 0x27c6, .pid = 0x5335 },
+   { .vid = 0x27c6, .pid = 0x533c },
+   { .vid = 0x27c6, .pid = 0x5381 },
+-  { .vid = 0x27c6, .pid = 0x5385 },
+   { .vid = 0x27c6, .pid = 0x538c },
+   { .vid = 0x27c6, .pid = 0x538d },
+-  { .vid = 0x27c6, .pid = 0x5395 },
+   { .vid = 0x27c6, .pid = 0x5503 },
+   { .vid = 0x27c6, .pid = 0x550a },
+   { .vid = 0x27c6, .pid = 0x550c },

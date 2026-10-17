@@ -1,0 +1,85 @@
+--- a/tiling.js
++++ b/tiling.js
+@@ -443,8 +443,14 @@
+         this.signals.connect(interfaceSettings, "changed::color-scheme", this.updateBackground.bind(this));
+         this.signals.connect(gsettings, 'changed::default-background', this.updateBackground.bind(this));
+         this.signals.connect(gsettings, 'changed::use-default-background', this.updateBackground.bind(this));
+-        this.signals.connect(backgroundSettings, 'changed::picture-uri', this.updateBackground.bind(this));
+-        this.signals.connect(backgroundSettings, "changed::picture-uri-dark", this.updateBackground.bind(this));
++        this.signals.connect(backgroundSettings, 'changed::picture-uri', () => {
++            if (interfaceSettings.get_string("color-scheme") !== "prefer-dark")
++                this.updateBackground();
++        });
++        this.signals.connect(backgroundSettings, "changed::picture-uri-dark", () => {
++            if (interfaceSettings.get_string("color-scheme") === "prefer-dark")
++                this.updateBackground();
++        });
+     }
+ 
+     /**
+@@ -1674,6 +1680,21 @@
+             }
+         }
+ 
++        this._wallpaperTransitionCleanup?.();
++        let transition = null;
++        if (this.metaBackground?.isLoaded && this.background.mapped) {
++            transition = new Meta.BackgroundActor({
++                name: "wallpaper-transition",
++                meta_display: display,
++                monitor: this.monitor.index,
++                reactive: false,
++                width: this.background.width,
++                height: this.background.height,
++            });
++            transition.content.set({background: this.metaBackground});
++            this.actor.insert_child_above(transition, this.background);
++        }
++
+         // destroy old background
+         this.metaBackground?.destroy();
+         this.metaBackground = null;
+@@ -1693,6 +1714,43 @@
+         // after creating new background apply this space's color
+         if (this.color) {
+             this.metaBackground.set_color(Utils.color_from_string(this.color)[1]);
++        }
++
++        if (transition) {
++            const actor = this.background;
++            const background = this.metaBackground;
++            let loadedId = 0;
++            let destroyId = 0;
++            const cleanup = () => {
++                if (loadedId) {
++                    background.disconnect(loadedId);
++                    loadedId = 0;
++                }
++                if (destroyId) {
++                    actor.disconnect(destroyId);
++                    destroyId = 0;
++                }
++                transition.destroy();
++                this._wallpaperTransitionCleanup = null;
++            };
++            this._wallpaperTransitionCleanup = cleanup;
++            destroyId = actor.connect('destroy', cleanup);
++            const fade = () => {
++                if (loadedId) {
++                    background.disconnect(loadedId);
++                    loadedId = 0;
++                }
++                transition.ease({
++                    opacity: 0,
++                    duration: 2000,
++                    mode: Clutter.AnimationMode.LINEAR,
++                    onComplete: cleanup,
++                });
++            };
++            if (background.isLoaded)
++                fade();
++            else
++                loadedId = background.connect('loaded', fade);
+         }
+     }
+ 

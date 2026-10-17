@@ -1,0 +1,26 @@
+# Zimfw module configuration.
+
+# Core modules.
+zmodule environment
+zmodule git
+zmodule input
+zmodule termtitle
+zmodule utility
+
+# Prompt support.
+zmodule duration-info
+zmodule git-info
+zmodule asciiship
+
+# Completion.
+zmodule zsh-users/zsh-completions --fpath src
+zmodule completion
+
+# Pure must be loaded after the other prompt modules.
+zmodule sindresorhus/pure --source async.zsh --source pure.zsh
+zmodule hlissner/zsh-autopair
+
+# Interactive plugins; syntax highlighting must be loaded last.
+zmodule zsh-users/zsh-autosuggestions
+zmodule zsh-users/zsh-history-substring-search
+zmodule zsh-users/zsh-syntax-highlighting

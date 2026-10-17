@@ -1,0 +1,76 @@
+{
+  "shortcuts": [
+    {
+      "id": "key_newNavigatorTab",
+      "key": "/",
+      "keycode": "",
+      "group": "windowAndTabManagement",
+      "l10nId": "zen-tab-new-shortcut",
+      "modifiers": {
+        "control": false,
+        "alt": true,
+        "shift": false,
+        "meta": false,
+        "accel": false
+      },
+      "action": "cmd_newNavigatorTabNoEvent",
+      "disabled": false,
+      "reserved": true,
+      "internal": false
+    },
+    {
+      "id": "zen-split-view-grid",
+      "key": "g",
+      "keycode": "",
+      "group": "zen-split-view",
+      "l10nId": "zen-split-view-shortcut-grid",
+      "modifiers": {
+        "control": false,
+        "alt": true,
+        "shift": false,
+        "meta": false,
+        "accel": false
+      },
+      "action": "cmd_zenSplitViewGrid",
+      "disabled": false,
+      "reserved": false,
+      "internal": false
+    },
+    {
+      "id": "zen-split-view-vertical",
+      "key": "\\",
+      "keycode": "",
+      "group": "zen-split-view",
+      "l10nId": "zen-split-view-shortcut-vertical",
+      "modifiers": {
+        "control": false,
+        "alt": true,
+        "shift": true,
+        "meta": false,
+        "accel": false
+      },
+      "action": "cmd_zenSplitViewVertical",
+      "disabled": false,
+      "reserved": false,
+      "internal": false
+    },
+    {
+      "id": "zen-split-view-horizontal",
+      "key": "\\",
+      "keycode": "",
+      "group": "zen-split-view",
+      "l10nId": "zen-split-view-shortcut-horizontal",
+      "modifiers": {
+        "control": false,
+        "alt": true,
+        "shift": false,
+        "meta": false,
+        "accel": false
+      },
+      "action": "cmd_zenSplitViewHorizontal",
+      "disabled": false,
+      "reserved": false,
+      "internal": false
+    }
+  ]
+}

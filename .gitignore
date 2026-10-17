@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+.codex/
+.agents/
+.cache/
+.aws/
+.ssh/
+*.pem
+*.key
+result
+result-*
+.direnv/

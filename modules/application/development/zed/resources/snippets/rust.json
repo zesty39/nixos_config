@@ -1,0 +1,19 @@
+{
+  "Function with return type": {
+    "prefix": "fn",
+    "body": [
+      "fn ${1:name}(${2:parameters}) -> ${3:ReturnType} {",
+      "    ${4:todo!()}",
+      "}",
+      "$0",
+    ],
+    "description": "Creates a Rust function with name, parameters, return type, and body tab stops",
+  },
+  "Derive attribute": {
+    "prefix": "derive",
+    "body": [
+      "#[derive(${1:Debug, Clone})]$0",
+    ],
+    "description": "Creates a Rust derive attribute with editable traits",
+  },
+}

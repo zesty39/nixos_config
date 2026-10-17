@@ -1,0 +1,110 @@
+--- a/extension.js
++++ b/extension.js
+@@ -1,11 +1,13 @@
+ import Clutter from 'gi://Clutter';
+ import Gio from 'gi://Gio';
+ import GLib from 'gi://GLib';
++import Meta from 'gi://Meta';
+ import GObject from 'gi://GObject';
+ import St from 'gi://St';
+ 
+ import * as Config from 'resource:///org/gnome/shell/misc/config.js';
+ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
++import * as Background from 'resource:///org/gnome/shell/ui/background.js';
+ import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+ import * as QuickSettings from 'resource:///org/gnome/shell/ui/quickSettings.js';
+ 
+@@ -34,6 +36,49 @@
+ 
+         this._createQuickSettingsEntry();
+         this._updateNotification = new UpdateNotification(this);
++
++        this._lastDesktopClick = null;
++        const clickSettings = Clutter.Settings.get_default();
++        global.stage.connectObject('captured-event', (_stage, event) => {
++            const type = event.type();
++            if (type !== Clutter.EventType.BUTTON_PRESS &&
++                type !== Clutter.EventType.BUTTON_RELEASE &&
++                type !== Clutter.EventType.MOTION)
++                return Clutter.EVENT_PROPAGATE;
++
++            const [x, y] = event.get_coords();
++            const distance = clickSettings.double_click_distance;
++            if (type !== Clutter.EventType.BUTTON_PRESS) {
++                if (this._lastDesktopClick &&
++                    Math.hypot(x - this._lastDesktopClick.x,
++                        y - this._lastDesktopClick.y) > distance)
++                    this._lastDesktopClick = null;
++                return Clutter.EVENT_PROPAGATE;
++            }
++
++            const actor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
++            // PaperWM supplies its own background actors above the Shell background.
++            let parent = actor;
++            while (parent && parent !== Main.layoutManager._backgroundGroup)
++                parent = parent.get_parent();
++            if (event.get_button() !== Clutter.BUTTON_PRIMARY ||
++                Main.overview.visible || Main.modalCount > 0 ||
++                !(actor instanceof Meta.BackgroundActor) || !parent ||
++                actor._backgroundMenu?.isOpen) {
++                this._lastDesktopClick = null;
++                return Clutter.EVENT_PROPAGATE;
++            }
++
++            const now = GLib.get_monotonic_time() / 1000;
++            const previous = this._lastDesktopClick;
++            this._lastDesktopClick = {time: now, x, y};
++            if (previous && now - previous.time <= clickSettings.double_click_time &&
++                Math.hypot(x - previous.x, y - previous.y) <= distance) {
++                this._lastDesktopClick = null;
++                this.slideshow.goToNextSlide();
++            }
++            return Clutter.EVENT_PROPAGATE;
++        }, this);
+ 
+         this._injectionManager.overrideMethod(Main.layoutManager, '_addBackgroundMenu', originalMethod => {
+             const azWallpaper = this;
+@@ -42,8 +87,33 @@
+                 originalMethod.call(this, bgManager);
+                 const menu = bgManager.backgroundActor._backgroundMenu;
+                 azWallpaper._modifyBackgroundMenu(menu);
++
+             };
+         });
++
++        this._injectionManager.overrideMethod(Background.BackgroundManager.prototype,
++            '_swapBackgroundActor', originalMethod => {
++                return function () {
++                    // Limit the transition override to desktop background managers.
++                    if (!Main.layoutManager._bgManagers.includes(this) ||
++                        Main.layoutManager.screenTransition.visible)
++                        return originalMethod.call(this);
++
++                    const oldActor = this.backgroundActor;
++                    this.backgroundActor = this._newBackgroundActor;
++                    this._newBackgroundActor = null;
++                    this.emit('changed');
++                    oldActor.reactive = false;
++
++                    // The new image is loaded underneath the old image before fading.
++                    oldActor.ease({
++                        opacity: 0,
++                        duration: 2000,
++                        mode: Clutter.AnimationMode.LINEAR,
++                        onComplete: () => oldActor.destroy(),
++                    });
++                };
++            });
+ 
+         this._settings.connectObject('changed::bing-wallpaper-download', () => this._bingWallpaperDownloadChanged(), this);
+         this._settings.connectObject('changed::bing-download-directory', () => this._restartBingWallpaperDownloader(), this);
+@@ -100,6 +170,9 @@
+     }
+ 
+     disable() {
++        global.stage.disconnectObject(this);
++        this._lastDesktopClick = null;
++
+         if (this._delayStartId) {
+             GLib.source_remove(this._delayStartId);
+             this._delayStartId = null;
