@@ -70,6 +70,7 @@
       indent.enabled = true;
       picker = {
         enabled = true;
+        focus = "list";
         ui_select = true;
         prompt = "  ";
         layouts = {

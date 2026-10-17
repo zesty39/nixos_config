@@ -36,10 +36,19 @@
           name = "default";
           path = "default";
 
+          # Preserve native Zen IDs to update existing essentials without duplicates.
+          sessionStore.tabs = builtins.fromJSON (builtins.readFile ./resources/essential-tabs.json);
+
           settings = {
+            "browser.startup.page" = 0;
+            "browser.startup.homepage" = "about:blank";
+            "browser.sessionstore.resume_from_crash" = false;
+            "browser.sessionstore.resume_session_once" = false;
+            "intl.locale.requested" = "zh-CN,en-US";
             "zen.view.compact.enable-at-startup" = false;
             "zen.view.sidebar-expanded" = false;
             "zen.view.use-single-toolbar" = false;
+            "zen.view.window.scheme" = 0;
             "zen.welcome-screen.seen" = true;
           } // lib.optionalAttrs (themeName == "catppuccin-mocha") {
             "browser.theme.content-theme" = 0;

@@ -1,0 +1,68 @@
+[
+  {
+    "entries": [
+      {
+        "url": "https://chatgpt.com/",
+        "title": "ChatGPT"
+      }
+    ],
+    "index": 1,
+    "pinned": true,
+    "hidden": false,
+    "zenWorkspace": null,
+    "zenSyncId": "1791690217885-3493abbc-a1b8-4ad7-a395-363b6d2d2630",
+    "zenEssential": true,
+    "userContextId": 0,
+    "lastAccessed": 0,
+    "_zenPinnedInitialState": {
+      "entry": {
+        "url": "https://chatgpt.com/",
+        "title": "ChatGPT"
+      }
+    }
+  },
+  {
+    "entries": [
+      {
+        "url": "http://127.0.0.1:9090/ui/zashboard/#/proxies",
+        "title": "127.0.0.1:9090 | Proxies"
+      }
+    ],
+    "index": 1,
+    "pinned": true,
+    "hidden": false,
+    "zenWorkspace": null,
+    "zenSyncId": "1791689114260-5f86cdf3-e959-412d-93a8-99b8cb8c677f",
+    "zenEssential": true,
+    "userContextId": 0,
+    "lastAccessed": 0,
+    "_zenPinnedInitialState": {
+      "entry": {
+        "url": "http://127.0.0.1:9090/ui/zashboard/#/proxies",
+        "title": "127.0.0.1:9090 | Proxies"
+      }
+    }
+  },
+  {
+    "entries": [
+      {
+        "url": "https://www.bilibili.com/",
+        "title": "哔哩哔哩 (゜-゜)つロ 干杯~-bilibili"
+      }
+    ],
+    "index": 1,
+    "pinned": true,
+    "hidden": false,
+    "zenWorkspace": null,
+    "zenSyncId": "1791702171770-317654a7-d4dc-40d0-9e14-c15069a27a70",
+    "zenEssential": true,
+    "userContextId": 0,
+    "lastAccessed": 0,
+    "_zenPinnedInitialState": {
+      "entry": {
+        "url": "https://www.bilibili.com/",
+        "title": "哔哩哔哩 (゜-゜)つロ 干杯~-bilibili"
+      }
+    }
+  }
+]
