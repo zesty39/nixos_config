@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ config, inputs, lib, pkgs, ... }:
 
 let
   goodix53x5Source = inputs.goodix53x5;
@@ -28,7 +28,7 @@ let
   };
 in
 {
-  services.desktopManager.gnome = {
+  services.desktopManager.gnome = lib.mkIf config.desktop.gnome.enabled {
     extraGSettingsOverridePackages = [ pkgs.gdm ];
     extraGSettingsOverrides = ''
       [org.gnome.login-screen]

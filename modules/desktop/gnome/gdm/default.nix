@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, targetUser, themeName, sharedLib, ... }:
+{ config, inputs, lib, pkgs, targetUser, themeName, sharedLib, ... }:
 
 let
   dconf = sharedLib.dconf;
@@ -7,7 +7,7 @@ let
   shellThemeName = themePackages.shellThemeName;
 in
 {
-  config = lib.mkMerge [
+  config = lib.mkIf (config.desktop.gnome.enabled) (lib.mkMerge [
     {
       services.displayManager.gdm.enable = true;
 
@@ -68,5 +68,5 @@ in
         };
       };
     })
-  ];
+  ]);
 }

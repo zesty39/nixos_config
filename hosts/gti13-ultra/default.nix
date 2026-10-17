@@ -7,8 +7,13 @@
     ../../modules/system.nix
     ../../modules/application
     ../../modules/mihomo.nix
-    ../../modules/desktop/gnome
+    ../../modules/desktop
   ];
+
+  desktop.gnome = {
+    enabled = true;
+    dynamic_wallpaper.enabled = true;
+  };
 
   development.enable = true;
 

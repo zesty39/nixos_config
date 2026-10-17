@@ -1,4 +1,4 @@
-{ lib, pkgs, themeName, sharedLib, ... }:
+{ config, lib, pkgs, themeName, sharedLib, ... }:
 
 let
   dconf = sharedLib.dconf;
@@ -9,7 +9,7 @@ let
   wallpaperUri = "file://${catppuccinWallpaper}/share/backgrounds/nixos/nix-wallpaper-nineish-catppuccin-mocha.png";
 in
 {
-  config = lib.mkIf (themeName == "catppuccin-mocha") {
+  config = lib.mkIf (config.desktop.gnome.enabled && themeName == "catppuccin-mocha") {
     environment.sessionVariables = {
       GTK_THEME = shellThemeName;
       XCURSOR_THEME = "catppuccin-mocha-dark-cursors";

@@ -1,4 +1,4 @@
-{ lib, sharedLib, ... }:
+{ config, lib, sharedLib, ... }:
 
 let
   dconf = sharedLib.dconf;
@@ -20,73 +20,75 @@ let
     ]);
 in
 {
-  programs.dconf.profiles.user.databases = dconf.mkLockedDatabases {
-    "org/gnome/desktop/app-folders" = {
-      folder-children = [ "Utilities" "System" "Offices" ];
-    };
+  config = lib.mkIf (config.desktop.gnome.enabled) {
+    programs.dconf.profiles.user.databases = dconf.mkLockedDatabases {
+      "org/gnome/desktop/app-folders" = {
+        folder-children = [ "Utilities" "System" "Offices" ];
+      };
 
-    "org/gnome/desktop/app-folders/folders/Utilities" = {
-      name = "Utilities";
-      apps = [
-        "org.gnome.Connections.desktop"
-        "org.gnome.Papers.desktop"
-        "org.gnome.Snapshot.desktop"
-        "org.gnome.clocks.desktop"
-        "org.gnome.Weather.desktop"
-        "org.gnome.Calculator.desktop"
-        "org.gnome.Loupe.desktop"
-        "org.gnome.Calendar.desktop"
-        "org.flameshot.Flameshot.desktop"
-        "ulauncher.desktop"
-        "nvim.desktop"
-      ];
-    };
+      "org/gnome/desktop/app-folders/folders/Utilities" = {
+        name = "Utilities";
+        apps = [
+          "org.gnome.Connections.desktop"
+          "org.gnome.Papers.desktop"
+          "org.gnome.Snapshot.desktop"
+          "org.gnome.clocks.desktop"
+          "org.gnome.Weather.desktop"
+          "org.gnome.Calculator.desktop"
+          "org.gnome.Loupe.desktop"
+          "org.gnome.Calendar.desktop"
+          "org.flameshot.Flameshot.desktop"
+          "ulauncher.desktop"
+          "nvim.desktop"
+        ];
+      };
 
-    "org/gnome/desktop/app-folders/folders/System" = {
-      name = "System";
-      apps = [
-        "org.gnome.baobab.desktop"
-        "org.gnome.DiskUtility.desktop"
-        "org.gnome.Logs.desktop"
-        "org.gnome.SystemMonitor.desktop"
-        "org.gnome.Characters.desktop"
-        "org.gnome.font-viewer.desktop"
-        "org.gnome.Extensions.desktop"
-        "org.gnome.tweaks.desktop"
-        "org.gnome.seahorse.Application.desktop"
-        "org.gnome.Settings.desktop"
-        "nixos-manual.desktop"
-        "org.gnome.GPaste.Preferences.desktop"
-        "org.gnome.GPaste.Ui.desktop"
-      ];
-    };
+      "org/gnome/desktop/app-folders/folders/System" = {
+        name = "System";
+        apps = [
+          "org.gnome.baobab.desktop"
+          "org.gnome.DiskUtility.desktop"
+          "org.gnome.Logs.desktop"
+          "org.gnome.SystemMonitor.desktop"
+          "org.gnome.Characters.desktop"
+          "org.gnome.font-viewer.desktop"
+          "org.gnome.Extensions.desktop"
+          "org.gnome.tweaks.desktop"
+          "org.gnome.seahorse.Application.desktop"
+          "org.gnome.Settings.desktop"
+          "nixos-manual.desktop"
+          "org.gnome.GPaste.Preferences.desktop"
+          "org.gnome.GPaste.Ui.desktop"
+        ];
+      };
 
-    "org/gnome/desktop/app-folders/folders/Offices" = {
-      name = "Offices";
-      apps = [
-        "startcenter.desktop"
-        "writer.desktop"
-        "calc.desktop"
-        "impress.desktop"
-        "draw.desktop"
-        "base.desktop"
-        "math.desktop"
-      ];
-    };
+      "org/gnome/desktop/app-folders/folders/Offices" = {
+        name = "Offices";
+        apps = [
+          "startcenter.desktop"
+          "writer.desktop"
+          "calc.desktop"
+          "impress.desktop"
+          "draw.desktop"
+          "base.desktop"
+          "math.desktop"
+        ];
+      };
 
-    "org/gnome/shell" = {
-      favorite-apps = [
-        "com.raggesilver.BlackBox.desktop"
-        "zen-twilight.desktop"
-        "dev.zed.Zed.desktop"
-        "org.gnome.Nautilus.desktop"
-        "spotify.desktop"
-        "steam.desktop"
-        "io.github.Predidit.Kazumi.desktop"
-      ];
-      app-picker-layout = [
-        (lib.imap0 appPickerEntry appPickerItems)
-      ];
+      "org/gnome/shell" = {
+        favorite-apps = [
+          "com.raggesilver.BlackBox.desktop"
+          "zen-twilight.desktop"
+          "dev.zed.Zed.desktop"
+          "org.gnome.Nautilus.desktop"
+          "spotify.desktop"
+          "steam.desktop"
+          "io.github.Predidit.Kazumi.desktop"
+        ];
+        app-picker-layout = [
+          (lib.imap0 appPickerEntry appPickerItems)
+        ];
+      };
     };
   };
 }

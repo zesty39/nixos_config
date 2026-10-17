@@ -1,5 +1,7 @@
-{ ... }:
+{ config, lib, ... }:
 
 {
-  programs.gpaste.enable = true;
+  config = lib.mkIf (config.desktop.gnome.enabled) {
+    programs.gpaste.enable = true;
+  };
 }

@@ -1,4 +1,4 @@
-{ lib, sharedLib, ... }:
+{ config, lib, sharedLib, ... }:
 
 let
   dconf = sharedLib.dconf;
@@ -9,9 +9,11 @@ let
   ] (_: { blur = false; });
 in
 {
-  programs.dconf.profiles.user.databases = dconf.mkLockedDatabases ({
-    "org/gnome/shell/extensions/blur-my-shell" = {
-      settings-version = lib.gvariant.mkInt32 2;
-    };
-  } // blurDisabledSettings);
+  config = lib.mkIf (config.desktop.gnome.enabled) {
+    programs.dconf.profiles.user.databases = dconf.mkLockedDatabases ({
+      "org/gnome/shell/extensions/blur-my-shell" = {
+        settings-version = lib.gvariant.mkInt32 2;
+      };
+    } // blurDisabledSettings);
+  };
 }

@@ -3,6 +3,7 @@
 {
   imports = [
     ./session.nix
+    ./options
     ./terminal
     ./gdm
     ./shell

@@ -7,8 +7,13 @@
     ../../modules/application
     ../../modules/mihomo.nix
     ./fingerprint.nix
-    ../../modules/desktop/gnome
+    ../../modules/desktop
   ];
+
+  desktop.gnome = {
+    enabled = true;
+    dynamic_wallpaper.enabled = false;
+  };
 
   development.enable = true;
 
