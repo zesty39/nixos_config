@@ -25,7 +25,8 @@
     steam.enable = true;
     zsh.enable = true;
     distrobox.enable = true;
-    kazumi.enable = true;
+    animeko.enable = true;
+    obsidian.enable = true;
     libreoffice.enable = true;
     yt-dlp.enable = true;
     ffmpeg.enable = true;

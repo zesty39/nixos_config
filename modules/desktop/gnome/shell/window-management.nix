@@ -40,6 +40,10 @@ let
     "Pick Files"
     "Pick a File"
   ];
+  obsidianFloatingTitles = [
+    "设置"
+    "Settings"
+  ];
   winprops = map builtins.toJSON [
     {
       title = "/^(flameshot|flameshot-pin)$/i";
@@ -60,6 +64,16 @@ let
     {
       wm_class = "org.gnome.Nautilus";
       title = "/^(?!.*(?:${lib.concatStringsSep "|" fileDialogTitles})).+$/";
+      scratch_layer = true;
+    }
+    {
+      wm_class = "md.obsidian.Obsidian";
+      title = "/^Obsidian$/";
+      scratch_layer = true;
+    }
+    {
+      wm_class = "md.obsidian.Obsidian";
+      title = "/(?:${lib.concatStringsSep "|" obsidianFloatingTitles})/i";
       scratch_layer = true;
     }
     {

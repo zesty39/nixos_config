@@ -10,7 +10,7 @@ let
     "com.raggesilver.BlackBox.desktop"
     "dev.zed.Zed.desktop"
     "io.github.celluloid_player.Celluloid.desktop"
-    "io.github.Predidit.Kazumi.desktop"
+    "animeko.desktop"
     "org.gnome.Nautilus.desktop"
   ];
 
@@ -81,9 +81,10 @@ in
           "zen-twilight.desktop"
           "dev.zed.Zed.desktop"
           "org.gnome.Nautilus.desktop"
+          "md.obsidian.Obsidian.desktop"
           "spotify.desktop"
           "steam.desktop"
-          "io.github.Predidit.Kazumi.desktop"
+          "animeko.desktop"
         ];
         app-picker-layout = [
           (lib.imap0 appPickerEntry appPickerItems)

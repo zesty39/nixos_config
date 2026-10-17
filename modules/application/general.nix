@@ -6,9 +6,6 @@
       environment.systemPackages = [ pkgs.distrobox ];
       virtualisation.podman.enable = true;
     })
-    (lib.mkIf config.application.kazumi.enable {
-      environment.systemPackages = [ pkgs.kazumi ];
-    })
     (lib.mkIf config.application.libreoffice.enable {
       environment.systemPackages = [ pkgs.libreoffice-fresh ];
     })

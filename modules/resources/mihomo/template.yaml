@@ -97,6 +97,10 @@ dns:
   direct-nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
+  nameserver-policy:
+    "+.deepseek.com":
+      - https://dns.alidns.com/dns-query
+      - https://doh.pub/dns-query
   nameserver:
     - https://8.8.8.8/dns-query#RULES&ecs=223.5.5.0/24
     - https://1.1.1.1/dns-query#RULES&ecs=223.5.5.0/24
@@ -323,6 +327,7 @@ proxy-groups:
 rules:
   - RULE-SET,private_ip,Direct,no-resolve
   - RULE-SET,private_domain,Direct
+  - PROCESS-NAME-REGEX,(?i)^(ani|animeko)$,Direct
   - DOMAIN-SUFFIX,qichiyu.com,Proxy
   - DOMAIN-SUFFIX,anime1.me,Personal
   - DOMAIN-SUFFIX,18comic.vip,Personal
