@@ -35,14 +35,11 @@ let
     "上传文件"
     "保存文件"
     "另存为"
+    "文件上传"
     "Select Project Root"
     "Open Folder"
     "Pick Files"
     "Pick a File"
-  ];
-  obsidianFloatingTitles = [
-    "设置"
-    "Settings"
   ];
   winprops = map builtins.toJSON [
     {
@@ -68,12 +65,7 @@ let
     }
     {
       wm_class = "md.obsidian.Obsidian";
-      title = "/^Obsidian$/";
-      scratch_layer = true;
-    }
-    {
-      wm_class = "md.obsidian.Obsidian";
-      title = "/(?:${lib.concatStringsSep "|" obsidianFloatingTitles})/i";
+      title = "/^(?:Settings|设置)(?: - .+ - Obsidian [0-9.]+)?$/";
       scratch_layer = true;
     }
     {

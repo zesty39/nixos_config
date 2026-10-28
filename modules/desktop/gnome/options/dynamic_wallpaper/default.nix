@@ -24,6 +24,7 @@ in
         slideshow-directory = wallpaperDirectory;
         slideshow-queue-sort-type = "Random";
         slideshow-slide-duration = lib.gvariant.mkTuple (map lib.gvariant.mkInt32 [ 0 30 0 ]);
+        slideshow-use-absolute-time-for-duration = true;
         bing-wallpaper-download = false;
         update-notifier-enabled = false;
       };
