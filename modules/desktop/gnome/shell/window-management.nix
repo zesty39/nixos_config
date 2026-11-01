@@ -14,6 +14,7 @@ let
     "com.usebottles.bottles"
     "ulauncher"
     "Ulauncher"
+    "weston-dev"
   ];
   gnomeScratchClasses = [
     "Settings"
@@ -22,6 +23,7 @@ let
     "SystemMonitor"
     "baobab"
     "Logs"
+    "Loupe"
   ];
   fileDialogTitles = [
     "Open File"

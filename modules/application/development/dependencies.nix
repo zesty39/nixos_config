@@ -9,6 +9,7 @@ let
     git
     patchelf
     ripgrep
+    shellcheck
     unzip
     wget
     xdotool

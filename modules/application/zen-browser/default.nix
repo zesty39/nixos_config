@@ -58,6 +58,8 @@
             "ui.systemUsesDarkTheme" = 1;
           };
         } // lib.optionalAttrs (themeName == "catppuccin-mocha") {
+          userContent = builtins.readFile ./resources/userContent.css;
+
           presets.catppuccin = {
             enable = true;
             flavor = "Mocha";

@@ -1,0 +1,9 @@
+@import "catppuccin/userContent.css";
+
+@media (prefers-color-scheme: dark) {
+  @-moz-document url("about:blank") {
+    :root {
+      background-color: #30303b !important;
+    }
+  }
+}

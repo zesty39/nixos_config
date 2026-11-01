@@ -71,6 +71,7 @@
       picker = {
         enabled = true;
         focus = "list";
+        sources.grep.focus = "input";
         ui_select = true;
         prompt = "  ";
         layouts = {
