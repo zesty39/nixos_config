@@ -39,6 +39,13 @@
     "vt.global_cursor_default=0"
   ];
   boot.plymouth.enable = true;
+  boot.tmp.useTmpfs = true;
+
+  fileSystems."/media" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+    options = [ "mode=0755" "nosuid" "nodev" "size=16M" ];
+  };
 
   time.timeZone = "Asia/Shanghai";
 
@@ -56,6 +63,8 @@
   };
 
   networking.networkmanager.enable = true;
+
+  services.udisks2.mountOnMedia = true;
 
   users.users.${targetUser} = {
     isNormalUser = true;

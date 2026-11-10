@@ -3,6 +3,7 @@
 let
   cfg = config.application.obsidian;
   styleSettings = import ./style-settings.nix { inherit pkgs; };
+  localRestApi = import ./local-rest-api.nix { inherit pkgs; };
   themeRevision = "7ebbd577464d6ef8a18cb02811983bee623f30d6";
   themeCss = pkgs.fetchurl {
     url = "https://raw.githubusercontent.com/catppuccin/obsidian/${themeRevision}/theme.css";
@@ -47,6 +48,7 @@ in
             appearance.theme = "obsidian";
             themes = [ theme ];
             communityPlugins = [
+              { pkg = localRestApi; }
               {
                 pkg = styleSettings;
                 settings = {

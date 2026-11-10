@@ -10,6 +10,7 @@
     ./steam
     ./zsh
     ./general.nix
+    ./nix-temp-run.nix
   ];
 
   options.application = {
