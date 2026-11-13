@@ -1,0 +1,16 @@
+--- a/cu.c
++++ b/cu.c
+@@ -259,3 +259,3 @@
+   /* --nostop: turn off XON/XOFF.  */
+-  enum txonxoffsetting txonxoff = XONXOFF_ON;
++  enum txonxoffsetting txonxoff = XONXOFF_OFF;
+   /* -I: configuration file name.  */
+@@ -686,2 +686,8 @@
+       /* Here we have locked a connection to use.  */
++      /* Disable hardware flow control for all cu serial connections.  */
++      if (sconn.qport->uuconf_ttype == UUCONF_PORTTYPE_DIRECT)
++        sconn.qport->uuconf_u.uuconf_sdirect.uuconf_fhardflow = FALSE;
++      else if (sconn.qport->uuconf_ttype == UUCONF_PORTTYPE_MODEM)
++        sconn.qport->uuconf_u.uuconf_smodem.uuconf_fhardflow = FALSE;
++
+       if (! fconn_open (&sconn, iusebaud, ihighbaud, FALSE, sinfo.fdirect))

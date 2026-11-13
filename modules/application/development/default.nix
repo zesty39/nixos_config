@@ -17,6 +17,7 @@ in
     })
     (lib.mkIf config.development.enable {
       environment.systemPackages = dependencies.developmentDependencies;
+      systemd.tmpfiles.rules = [ "d /run/lock/uucp 0775 root dialout - -" ];
       programs.nix-ld.enable = true;
       environment.sessionVariables.PKG_CONFIG_PATH =
         lib.makeSearchPathOutput "dev" "lib/pkgconfig" dependencies.languageDependencies.rust;

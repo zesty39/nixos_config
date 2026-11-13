@@ -73,7 +73,13 @@ let
     tcpdump
     ubootTools
     usbutils
-    uucp
+    (uucp.overrideAttrs (old: {
+      patches = (old.patches or [ ]) ++ [ ./resources/cu-no-flow-control.patch ];
+      postPatch = (old.postPatch or "") + ''
+        substituteInPlace policy.h \
+          --replace-fail '/* #define LOCKDIR "/var/lock" */' '#define LOCKDIR "/run/lock/uucp"'
+      '';
+    }))
   ];
   agentDependencies = with pkgs; [
     bubblewrap
